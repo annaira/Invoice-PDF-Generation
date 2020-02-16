@@ -27,6 +27,7 @@ public class KrankengymnastikInvoice {
     private static final String ADDRESS_LINE_1 = "Sendlinger Tor Platz 7";
     private static final String ADDRESS_LINE_2 = "80036 München";
     private static final String PHONE_NUMBER = "089/52031536";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private static Customer customer = Customer.testData();
     private static Invoice invoice = Invoice.testData();
@@ -60,7 +61,7 @@ public class KrankengymnastikInvoice {
         addEmptyLine(document);
         addEmptyLine(document);
         addEmptyLine(document);
-        addRightAlignedLine(document, LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+        addRightAlignedLine(document, LocalDate.now().format(FORMATTER));
         addLeftAlignedLine(document, "-");
         addEmptyLine(document);
         addSubjectLine(document, "Rechnung Nr. " + invoice.number);
@@ -68,8 +69,8 @@ public class KrankengymnastikInvoice {
         addLeftAlignedLines(document, "Versicherte einer gesetzlichen Krankenkasse müssen nach §32 SGB V eine " +
                 "Zuzahlung zu den Kosten ihrer Behandlung leisten.");
         addEmptyLine(document);
-        addLeftAlignedLines(document, "Aufgrund der Verordnung von Herrn Dr. med. Manuel Müller vom 10.01.2020 " +
-                "erlauben wir uns, den Eigenanteil an einer Heilmittelbehandlung für Frau Anna Ira Hurnaus zu" +
+        addLeftAlignedLines(document,
+                "Aufgrund der Verordnung von Herrn Dr. med. Manuel Müller vom " + invoice.dateOfService.format(FORMATTER) + " erlauben wir uns, den Eigenanteil an einer Heilmittelbehandlung für Frau Anna Ira Hurnaus zu" +
                 " berechnen:");
         addEmptyLine(document);
         addAmountLine(document, "Betrag: " + invoice.amount);
@@ -77,7 +78,7 @@ public class KrankengymnastikInvoice {
         addEmptyLine(document);
         addEmptyLine(document);
         addLeftAlignedLines(document,
-                "Den Eigenanteil überweisen Sie bitte bis zum " + LocalDate.now().plusWeeks(invoice.payableInWeeks).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " unter Angabe unserer Rechnungsnummer " + invoice.number + " auf das unten angegebene Konto.");
+                "Den Eigenanteil überweisen Sie bitte bis zum " + LocalDate.now().plusWeeks(invoice.payableInWeeks).format(FORMATTER) + " unter Angabe unserer Rechnungsnummer " + invoice.number + " auf das unten angegebene Konto.");
         addEmptyLine(document);
         addEmptyLine(document);
         addLeftAlignedLine(document, paymentData.name);
